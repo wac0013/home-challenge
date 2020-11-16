@@ -1,5 +1,9 @@
 # checkout
 
+OBS:. Requered node
+
+OBS²:. Run commands with yarn or npm
+
 For run the challenger, plese run de mock-api and command serve. After access the [link](http://localhost:8080/)
 
 ## Project setup
