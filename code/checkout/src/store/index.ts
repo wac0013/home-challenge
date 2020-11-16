@@ -5,30 +5,43 @@ export enum TypeActions {
   ADD = "add"
 }
 
-export default createStore({
+export interface State {
+  listItens: TypeRowItem[];
+}
+
+export default createStore<State>({
   state: {
-    listItens: Array<TypeRowItem>(),
-    listProducts: Array<TypeRowItem>()
+    listItens: []
   },
   mutations: {
-    add(state, newItem: TypeRowItem) {
-      const index: number = state.listItens.findIndex(
-        item => newItem.product?.id == item.product?.id
-      );
-
-      newItem.position = state.listProducts.length;
-      state.listProducts.push(newItem);
-
-      if (index >= 0) {
-        state.listItens[index].qtd = state.listItens[index].qtd + newItem.qtd;
-      } else {
-        state.listItens.push(newItem);
-      }
+    [TypeActions.ADD](state: State, newItem: TypeRowItem) {
+      
+      newItem.position = state.listItens.length;
+      state.listItens.push(newItem);
     }
   },
   actions: {
-    add(context, newIten) {
+    [TypeActions.ADD](context, newIten) {
       context.commit(TypeActions.ADD, newIten);
+    }
+  },
+  getters: {
+    getListResume(state: State): TypeRowItem[] {
+      const resume: TypeRowItem[] = [];
+
+      state.listItens.forEach(it => {
+        const index: number = resume.findIndex(
+          item => it.product?.id == item.product?.id
+        );
+
+        if (index >= 0) {
+          resume[index].qtd += it.qtd;
+        } else {
+          resume.push(it);
+        }
+      });
+
+      return resume;
     }
   },
   modules: {}

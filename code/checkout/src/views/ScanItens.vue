@@ -43,9 +43,9 @@
         <span style="margin-left: 5px; margin-bottom: 5px">Discount</span>
       </div>
       <product-view
-        v-for="item of listProducts"
-        :key="item.position"
-        :item="item"
+        v-for="prod of listProducts"
+        :key="prod.position"
+        :item="prod"
       />
     </div>
     <Button
@@ -54,6 +54,14 @@
       icon="pi pi-check"
       iconPos="right"
       @click.prevent="goToCheckout()"
+      style="height: 54px;"
+    />
+    <Button
+      label="Clear"
+      class="p-button-danger p-button-raised p-button-rounded"
+      icon="pi pi-trash"
+      iconPos="right"
+      @click.prevent="clear()"
       style="height: 54px;"
     />
   </div>
@@ -91,7 +99,7 @@ export default class ScanItens extends Vue {
   $store: any; //necessary, due to bug in vue 3
 
   get listProducts(): RowItem[] {
-    return this.$store.state.listProducts;
+    return this.$store.state.listItens;
   }
 
   async findProductAsync() {
@@ -130,6 +138,10 @@ export default class ScanItens extends Vue {
         life: 3000
       });
     }
+  }
+
+  clear() {
+    this.$store.state.listItens = [];
   }
 }
 </script>

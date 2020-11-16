@@ -11,19 +11,31 @@
     <div class="p-col-12">Total Promos: £{{ getTotalDiscount() }}</div>
     <div class="p-col-12">Total Payable: £{{ getTotal() }}</div>
   </div>
+  <Button
+    label="Back"
+    class="p-button-info p-button-raised p-button-rounded"
+    icon="pi pi-arrow-left"
+    iconPos="right"
+    @click.prevent="back()"
+    style="height: 54px;"
+  />
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 
 import ProductViewResume from "@/components/ProductViewResume.vue";
+
+import Button from "primevue/button";
+
 import { TypeRowItem } from "@/models/rowItem";
 import { ValidateValuePromo } from "@/services/validateValuePromo";
 import { ValidateValuePromoQtd } from "@/services/imp/validateValuePromoQtd";
 
 @Options({
   components: {
-    ProductViewResume
+    ProductViewResume,
+    Button
   }
 })
 export default class Checkout extends Vue {
@@ -33,7 +45,7 @@ export default class Checkout extends Vue {
   $store: any;
 
   created() {
-    this.listItens = this.$store.state.listItens;
+    this.listItens = this.$store.getters.getListResume;
   }
 
   getTotal(): number {
@@ -64,6 +76,10 @@ export default class Checkout extends Vue {
     });
 
     return total;
+  }
+
+  back() {
+    this.$router.go(-1);
   }
 }
 </script>
